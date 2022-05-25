@@ -1,13 +1,13 @@
 # job4j_cinema
 
-[![Java CI with Maven](https://github.com/aswsx/job4j_dreamjob/actions/workflows/maven.yml/badge.svg)](https://github.com/aswsx/job4j_dreamjob/actions/workflows/maven.yml)
-[![codecov](https://codecov.io/gh/aswsx/job4j_dreamjob/branch/master/graph/badge.svg?token=rIPqeJScWw)](https://codecov.io/gh/aswsx/job4j_threads)
-[![CircleCI](https://circleci.com/gh/aswsx/job4j_dreamjob/tree/master.svg?style=shield)](https://circleci.com/gh/aswsx/job4j_threads/tree/master)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/aswsx/job4j_dreamjob)
-![GitHub last commit](https://img.shields.io/github/last-commit/aswsx/job4j_dreamjob)
-![GitHub top language](https://img.shields.io/github/languages/top/aswsx/job4j_dreamjob)
-![GitHub language count](https://img.shields.io/github/languages/count/aswsx/job4j_dreamjob)
-![Lines of code](https://img.shields.io/tokei/lines/github/aswsx/job4j_dreamjob)
+[![Java CI with Maven](https://github.com/aswsx/job4j_dreamjob/actions/workflows/maven.yml/badge.svg)](https://github.com/aswsx/job4j_cinema/actions/workflows/maven.yml)
+[![codecov](https://codecov.io/gh/aswsx/job4j_dreamjob/branch/master/graph/badge.svg?token=rIPqeJScWw)](https://codecov.io/gh/aswsx/job4j_cinema)
+[![CircleCI](https://circleci.com/gh/aswsx/job4j_dreamjob/tree/master.svg?style=shield)](https://circleci.com/gh/aswsx/job4j_cinema/tree/master)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/aswsx/job4j_cinema)
+![GitHub last commit](https://img.shields.io/github/last-commit/aswsx/job4j_cinema)
+![GitHub top language](https://img.shields.io/github/languages/top/aswsx/job4j_cinema)
+![GitHub language count](https://img.shields.io/github/languages/count/aswsx/job4j_cinema)
+![Lines of code](https://img.shields.io/tokei/lines/github/aswsx/job4j_cinema)
 
 ## Навыки
 
