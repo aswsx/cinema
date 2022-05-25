@@ -32,11 +32,7 @@ public class TicketsController {
     @PostMapping("/selectSeat")
     public String seatSelect(Model model, @ModelAttribute Ticket ticket, HttpSession session,
                              @RequestParam(name = "fail", required = false) Boolean fail) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setUsername(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("ticket", ticket);
         model.addAttribute("user", user);
         model.addAttribute("fail", fail != null);
@@ -47,12 +43,8 @@ public class TicketsController {
     }
 
     @PostMapping("/addTicket")
-    public String addTicket(@ModelAttribute Ticket ticket, Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setUsername(GUEST);
-        }
+    public String addTicket(Model model, @ModelAttribute Ticket ticket, HttpSession session) {
+        User user = getUser(session);
         model.addAttribute("user", user);
         Ticket addedTicket = service.addTicket(ticket);
         if (addedTicket.getId() != 0) {
@@ -62,19 +54,19 @@ public class TicketsController {
     }
 
     @GetMapping("/cabinet")
-    public String addTicket(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setUsername(GUEST);
-        }
+    public String findTicketsByUserId(Model model, HttpSession session) {
+        User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute("tickets", service.findTicketsByUserId(user.getUserId()));
         return "/cinema/cabinet";
     }
 
-    @GetMapping("/addTicket")
-    public String finish() {
-        return "/cinema/finish";
+    private User getUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setUsername(GUEST);
+        }
+        return user;
     }
 }

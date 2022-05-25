@@ -27,14 +27,19 @@ public class IndexController {
 
     @GetMapping("/index")
     public String index(Model model, HttpSession session, @RequestParam(name = "fail", required = false) Boolean fail) {
+        User user = getUser(session);
+        model.addAttribute("user", user);
+        model.addAttribute("filmShows", service.findAllShows());
+        model.addAttribute("fail", fail != null);
+        return "index";
+    }
+
+    private User getUser(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();
             user.setUsername("Guest");
         }
-        model.addAttribute("user", user);
-        model.addAttribute("filmShows", service.findAllShows());
-        model.addAttribute("fail", fail != null);
-        return "index";
+        return user;
     }
 }
