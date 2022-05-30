@@ -11,6 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Alex Gutorov
@@ -26,7 +27,7 @@ public class TicketsDBStore {
         this.pool = pool;
     }
 
-    public Ticket addTicket(Ticket ticket) {
+    public Optional<Ticket> addTicket(Ticket ticket) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("INSERT INTO tickets(show_id, row, seat, user_id) " +
                      "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
@@ -43,7 +44,7 @@ public class TicketsDBStore {
         } catch (Exception e) {
             LOG.error("Ticket Add Error", e);
         }
-        return ticket;
+        return Optional.ofNullable(ticket);
     }
 
     public Collection<Ticket> findTicketsByShowId(int showId) {

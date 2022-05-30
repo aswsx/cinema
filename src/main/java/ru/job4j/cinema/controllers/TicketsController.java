@@ -7,11 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.job4j.cinema.models.Hall;
 import ru.job4j.cinema.models.Ticket;
 import ru.job4j.cinema.models.User;
 import ru.job4j.cinema.services.TicketsService;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Alex Gutorov
@@ -22,6 +27,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class TicketsController {
     private final TicketsService service;
+
+    private final Hall hall = new Hall();
 
     private static final String GUEST = "Guest";
 
@@ -36,9 +43,9 @@ public class TicketsController {
         model.addAttribute("ticket", ticket);
         model.addAttribute("user", user);
         model.addAttribute("fail", fail != null);
-        model.addAttribute("rows", service.getAvailableRows(ticket.getShowId()));
-        model.addAttribute("seats", service
-                .getAvailableSeats(ticket.getShowId(), ticket.getRow()));
+        model.addAttribute("rows", getAvailableRows(ticket.getShowId()));
+        model.addAttribute("seats", getAvailableSeats(ticket
+                .getShowId(), ticket.getRow()));
         return "cinema/selectSeat";
     }
 
@@ -46,8 +53,8 @@ public class TicketsController {
     public String addTicket(Model model, @ModelAttribute Ticket ticket, HttpSession session) {
         User user = getUser(session);
         model.addAttribute("user", user);
-        Ticket addedTicket = service.addTicket(ticket);
-        if (addedTicket.getId() != 0) {
+        Optional<Ticket> addedTicket = service.addTicket(ticket);
+        if (addedTicket.isPresent()) {
             return "/cinema/successBooking";
         }
         return "redirect:/index?fail=true";
@@ -68,5 +75,33 @@ public class TicketsController {
             user.setUsername(GUEST);
         }
         return user;
+    }
+
+    public List<Integer> getAvailableRows(int showId) {
+        Collection<Ticket> tickets = service.findTicketsByShowId(showId);
+        List<Integer> availableRows = new ArrayList<>();
+        for (int i = 1; i <= hall.getRows(); i++) {
+            availableRows.add(i);
+        }
+        for (Ticket ticket : tickets) {
+            if (getAvailableSeats(showId, ticket.getRow()).isEmpty()) {
+                availableRows.remove(Integer.valueOf(ticket.getRow()));
+            }
+        }
+        return availableRows;
+    }
+
+    public List<Integer> getAvailableSeats(int showId, int row) {
+        Collection<Ticket> tickets = service.findTicketsByShowId(showId);
+        List<Integer> availableSeats = new ArrayList<>();
+        for (int i = 1; i <= hall.getSeats(); i++) {
+            availableSeats.add(i);
+        }
+        for (Ticket ticket : tickets) {
+            if (ticket.getRow() == row) {
+                availableSeats.remove(Integer.valueOf(ticket.getSeat()));
+            }
+        }
+        return availableSeats;
     }
 }

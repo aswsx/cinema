@@ -7,6 +7,7 @@ import ru.job4j.cinema.models.Ticket;
 import ru.job4j.cinema.services.TicketsService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -27,7 +28,7 @@ class TicketsControllerTest {
         TicketsController controller = new TicketsController(ticketsService);
         FilmShow show = new FilmShow(1, "Avengers");
         Ticket ticket = new Ticket(1, 1, 1, 1, 1, show);
-        when(ticketsService.addTicket(ticket)).thenReturn(ticket);
+        when(ticketsService.addTicket(ticket)).thenReturn(Optional.of(ticket));
         String page = controller.addTicket(model, ticket, session);
         verify(ticketsService).addTicket(ticket);
         assertThat(page, is("/cinema/successBooking"));
@@ -41,7 +42,7 @@ class TicketsControllerTest {
         TicketsController controller = new TicketsController(ticketsService);
         FilmShow show = new FilmShow(1, "Avengers");
         Ticket ticket = new Ticket(1, 1, 1, 1, 1, show);
-        when(ticketsService.addTicket(ticket)).thenReturn(ticket);
+        when(ticketsService.addTicket(ticket)).thenReturn(Optional.of(ticket));
         controller.addTicket(model, ticket, session);
         String page = controller.findTicketsByUserId(model, session);
         assertThat(page, is("/cinema/cabinet"));
